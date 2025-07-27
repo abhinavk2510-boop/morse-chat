@@ -1,11 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Morse Chat</title>
   <meta charset="UTF-8" />
+  <title>Morse Code Finger</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #2b2d31;
+      color: #f2f3f5;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    h1 {
+      background-color: #1e1f22;
+      padding: 20px;
+      margin: 0;
+      font-size: 28px;
+      color: #f2f3f5;
+    }
+
+    .morse-ref {
+      background: #1e1f22;
+      padding: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .morse-btn {
+      background-color: #313338;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: #f2f3f5;
+      cursor: default;
+      font-weight: bold;
+    }
+
+    .output {
+      margin: 20px;
+      font-size: 20px;
+      white-space: pre-wrap;
+      text-align: center;
+    }
+
+    .click-area {
+      margin: 30px auto;
+      width: 80%;
+      height: 180px;
+      border: 2px dashed #5865f2;
+      background-color: #313338;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b9bbbe;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 12px;
+    }
+
+    .click-area:hover {
+      background-color: #3c3f45;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to Morse Chat</h1>
-  <p>This is your first web file!</p>
+  <h1>Morse Code Finger</h1>
+
+  <div class="morse-ref">
+    <!-- Morse Chart for A-Z -->
+    <button class="morse-btn">A: ·–</button>
+    <button class="morse-btn">B: –···</button>
+    <button class="morse-btn">C: –·–·</button>
+    <button class="morse-btn">D: –··</button>
+    <button class="morse-btn">E: ·</button>
+    <button class="morse-btn">F: ··–·</button>
+    <button class="morse-btn">G: ––·</button>
+    <button class="morse-btn">H: ····</button>
+    <button class="morse-btn">I: ··</button>
+    <button class="morse-btn">J: ·–––</button>
+    <button class="morse-btn">K: –·–</button>
+    <button class="morse-btn">L: ·–··</button>
+    <button class="morse-btn">M: ––</button>
+    <button class="morse-btn">N: –·</button>
+    <button class="morse-btn">O: –––</button>
+    <button class="morse-btn">P: ·––·</button>
+    <button class="morse-btn">Q: ––·–</button>
+    <button class="morse-btn">R: ·–·</button>
+    <button class="morse-btn">S: ···</button>
+    <button class="morse-btn">T: –</button>
+    <button class="morse-btn">U: ··–</button>
+    <button class="morse-btn">V: ···–</button>
+    <button class="morse-btn">W: ·––</button>
+    <button class="morse-btn">X: –··–</button>
+    <button class="morse-btn">Y: –·––</button>
+    <button class="morse-btn">Z: ––··</button>
+    <!-- Numbers -->
+    <button class="morse-btn">0: –––––</button>
+    <button class="morse-btn">1: ·––––</button>
+    <button class="morse-btn">2: ··–––</button>
+    <button class="morse-btn">3: ···––</button>
+    <button class="morse-btn">4: ····–</button>
+    <button class="morse-btn">5: ·····</button>
+    <button class="morse-btn">6: –····</button>
+    <button class="morse-btn">7: ––···</button>
+    <button class="morse-btn">8: –––··</button>
+    <button class="morse-btn">9: ––––·</button>
+  </div>
+
+  <div class="output" id="morseOutput"></div>
+  <div class="output" id="textOutput"></div>
+
+  <div class="click-area" id="clickArea">
+    Click here (Left = Dash – | Right = Dot ·)
+  </div>
+
+  <script>
+    const morseToText = {
+      '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
+      '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',
+      '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',
+      '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',
+      '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',
+      '--..': 'Z',
+      '-----': '0', '.----': '1', '..---': '2', '...--': '3', '....-': '4',
+      '.....': '5', '-....': '6', '--...': '7', '---..': '8', '----.': '9'
+    };
+
+    let currentCode = '';
+    let decoded = '';
+    const morseOutput = document.getElementById('morseOutput');
+    const textOutput = document.getElementById('textOutput');
+
+    document.getElementById('clickArea').addEventListener('mousedown', function (e) {
+      e.preventDefault(); // stop menu
+      if (e.button === 0) {
+        currentCode += '-'; // Left click = dash
+      } else if (e.button === 2) {
+        currentCode += '.'; // Right click = dot
+      }
+      morseOutput.textContent = currentCode;
+    });
+
+    // Convert on spacebar or Enter
+    document.addEventListener('keydown', function (e) {
+      if (e.code === 'Space' || e.code === 'Enter') {
+        if (morseToText[currentCode]) {
+          decoded += morseToText[currentCode];
+        } else {
+          decoded += '?';
+        }
+        textOutput.textContent = decoded;
+        currentCode = '';
+        morseOutput.textContent = '';
+      } else if (e.key === 'Backspace') {
+        currentCode = '';
+        morseOutput.textContent = '';
+      }
+    });
+
+    // Disable right-click menu
+    document.getElementById('clickArea').addEventListener('contextmenu', e => e.preventDefault());
+  </script>
 </body>
 </html>
