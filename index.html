@@ -1,169 +1,185 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Morse Code Finger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morse Chatroom</title>
   <style>
     body {
-      font-family: 'Courier New', monospace;
-      background-color: #2b2d31;
-      color: #f2f3f5;
       margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-
-    h1 {
-      background-color: #1e1f22;
-      padding: 20px;
-      margin: 0;
-      font-size: 28px;
-      color: #f2f3f5;
-    }
-
-    .morse-ref {
-      background: #1e1f22;
-      padding: 15px;
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
+      height: 100vh;
+      background-color: #2f3136;
+      color: white;
     }
 
-    .morse-btn {
-      background-color: #313338;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 12px;
-      color: #f2f3f5;
-      cursor: default;
+    .sidebar {
+      width: 250px;
+      background-color: #202225;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .morse-entry {
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #36393f;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      background-color: #2e2f34;
+      border-radius: 5px;
+    }
+
+    .message .username {
       font-weight: bold;
+      color: #7289da;
     }
 
-    .output {
-      margin: 20px;
-      font-size: 20px;
-      white-space: pre-wrap;
-      text-align: center;
+    .input-area {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #444;
+      background-color: #40444b;
     }
 
-    .click-area {
-      margin: 30px auto;
-      width: 80%;
-      height: 180px;
-      border: 2px dashed #5865f2;
-      background-color: #313338;
+    .input-box {
+      flex: 1;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 5px;
+      background: #2e2f34;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #b9bbbe;
-      font-size: 18px;
+      color: #bbb;
       cursor: pointer;
-      border-radius: 12px;
     }
 
-    .click-area:hover {
-      background-color: #3c3f45;
+    input[type="text"] {
+      width: 120px;
+      border-radius: 5px;
+      border: none;
+      padding: 8px;
+      margin-right: 10px;
+    }
+
+    button {
+      background-color: #7289da;
+      border: none;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #5b6eae;
     }
   </style>
 </head>
 <body>
-  <h1>Morse Code Finger</h1>
-
-  <div class="morse-ref">
-    <!-- Morse Chart for A-Z -->
-    <button class="morse-btn">A: ·–</button>
-    <button class="morse-btn">B: –···</button>
-    <button class="morse-btn">C: –·–·</button>
-    <button class="morse-btn">D: –··</button>
-    <button class="morse-btn">E: ·</button>
-    <button class="morse-btn">F: ··–·</button>
-    <button class="morse-btn">G: ––·</button>
-    <button class="morse-btn">H: ····</button>
-    <button class="morse-btn">I: ··</button>
-    <button class="morse-btn">J: ·–––</button>
-    <button class="morse-btn">K: –·–</button>
-    <button class="morse-btn">L: ·–··</button>
-    <button class="morse-btn">M: ––</button>
-    <button class="morse-btn">N: –·</button>
-    <button class="morse-btn">O: –––</button>
-    <button class="morse-btn">P: ·––·</button>
-    <button class="morse-btn">Q: ––·–</button>
-    <button class="morse-btn">R: ·–·</button>
-    <button class="morse-btn">S: ···</button>
-    <button class="morse-btn">T: –</button>
-    <button class="morse-btn">U: ··–</button>
-    <button class="morse-btn">V: ···–</button>
-    <button class="morse-btn">W: ·––</button>
-    <button class="morse-btn">X: –··–</button>
-    <button class="morse-btn">Y: –·––</button>
-    <button class="morse-btn">Z: ––··</button>
-    <!-- Numbers -->
-    <button class="morse-btn">0: –––––</button>
-    <button class="morse-btn">1: ·––––</button>
-    <button class="morse-btn">2: ··–––</button>
-    <button class="morse-btn">3: ···––</button>
-    <button class="morse-btn">4: ····–</button>
-    <button class="morse-btn">5: ·····</button>
-    <button class="morse-btn">6: –····</button>
-    <button class="morse-btn">7: ––···</button>
-    <button class="morse-btn">8: –––··</button>
-    <button class="morse-btn">9: ––––·</button>
+  <div class="sidebar">
+    <h2>Morse Reference</h2>
+    <div class="morse-entry">A: ·–</div>
+    <div class="morse-entry">B: –···</div>
+    <div class="morse-entry">C: –·–·</div>
+    <div class="morse-entry">D: –··</div>
+    <div class="morse-entry">E: ·</div>
+    <div class="morse-entry">F: ··–·</div>
+    <div class="morse-entry">G: ––·</div>
+    <div class="morse-entry">H: ····</div>
+    <div class="morse-entry">I: ··</div>
+    <div class="morse-entry">J: ·–––</div>
+    <div class="morse-entry">K: –·–</div>
+    <div class="morse-entry">L: ·–··</div>
+    <div class="morse-entry">M: ––</div>
+    <div class="morse-entry">N: –·</div>
+    <div class="morse-entry">O: –––</div>
+    <div class="morse-entry">P: ·––·</div>
+    <div class="morse-entry">Q: ––·–</div>
+    <div class="morse-entry">R: ·–·</div>
+    <div class="morse-entry">S: ···</div>
+    <div class="morse-entry">T: –</div>
+    <div class="morse-entry">U: ··–</div>
+    <div class="morse-entry">V: ···–</div>
+    <div class="morse-entry">W: ·––</div>
+    <div class="morse-entry">X: –··–</div>
+    <div class="morse-entry">Y: –·––</div>
+    <div class="morse-entry">Z: ––··</div>
+    <div class="morse-entry">0: –––––</div>
+    <div class="morse-entry">1: ·––––</div>
+    <div class="morse-entry">2: ··–––</div>
+    <div class="morse-entry">3: ···––</div>
+    <div class="morse-entry">4: ····–</div>
+    <div class="morse-entry">5: ·····</div>
+    <div class="morse-entry">6: –····</div>
+    <div class="morse-entry">7: ––···</div>
+    <div class="morse-entry">8: –––··</div>
+    <div class="morse-entry">9: ––––·</div>
   </div>
 
-  <div class="output" id="morseOutput"></div>
-  <div class="output" id="textOutput"></div>
-
-  <div class="click-area" id="clickArea">
-    Click here (Left = Dash – | Right = Dot ·)
+  <div class="main">
+    <div class="chat" id="chat"></div>
+    <div class="input-area">
+      <input type="text" id="username" placeholder="Your name" />
+      <div class="input-box" id="morseBox">Click: Left = – | Right = ·</div>
+      <button onclick="sendMessage()">Send</button>
+    </div>
   </div>
 
   <script>
-    const morseToText = {
-      '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
-      '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',
-      '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',
-      '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',
-      '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',
-      '--..': 'Z',
-      '-----': '0', '.----': '1', '..---': '2', '...--': '3', '....-': '4',
-      '.....': '5', '-....': '6', '--...': '7', '---..': '8', '----.': '9'
-    };
+    const chat = document.getElementById('chat');
+    const morseBox = document.getElementById('morseBox');
+    let morseInput = '';
 
-    let currentCode = '';
-    let decoded = '';
-    const morseOutput = document.getElementById('morseOutput');
-    const textOutput = document.getElementById('textOutput');
-
-    document.getElementById('clickArea').addEventListener('mousedown', function (e) {
-      e.preventDefault(); // stop menu
+    morseBox.addEventListener('mousedown', (e) => {
+      e.preventDefault();
       if (e.button === 0) {
-        currentCode += '-'; // Left click = dash
+        // Left click = dash
+        morseInput += '–';
       } else if (e.button === 2) {
-        currentCode += '.'; // Right click = dot
+        // Right click = dot
+        morseInput += '·';
       }
-      morseOutput.textContent = currentCode;
+      morseBox.textContent = morseInput;
     });
 
-    // Convert on spacebar or Enter
-    document.addEventListener('keydown', function (e) {
-      if (e.code === 'Space' || e.code === 'Enter') {
-        if (morseToText[currentCode]) {
-          decoded += morseToText[currentCode];
-        } else {
-          decoded += '?';
-        }
-        textOutput.textContent = decoded;
-        currentCode = '';
-        morseOutput.textContent = '';
-      } else if (e.key === 'Backspace') {
-        currentCode = '';
-        morseOutput.textContent = '';
-      }
-    });
+    morseBox.addEventListener('contextmenu', (e) => e.preventDefault());
 
-    // Disable right-click menu
-    document.getElementById('clickArea').addEventListener('contextmenu', e => e.preventDefault());
+    function sendMessage() {
+      const username = document.getElementById('username').value || 'Anonymous';
+      if (morseInput === '') return;
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message';
+      msgDiv.innerHTML = `<span class="username">${username}</span>: ${morseInput}`;
+      chat.appendChild(msgDiv);
+      chat.scrollTop = chat.scrollHeight;
+      morseInput = '';
+      morseBox.textContent = 'Click: Left = – | Right = ·';
+    }
   </script>
 </body>
 </html>
